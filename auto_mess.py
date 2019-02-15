@@ -11,20 +11,22 @@ def make_data_message(name, happy, neutral, pol, subj):
     happy, neutral = str(100*round((happy),2)) + '%', str(100*round((neutral),2)) + "%"
     pol, subj = round((pol), 3), round((subj), 3)
     message = [
-                u'Tinder 📊 for %s' %name,
-                u'Your photos indicate that you appear %s happy (smiling)' %happy,
-                u'Your bio has some interesting sentiment',
-                u'You scored %s on the polarity scale [-1,1]' %pol,
-                u'You scored %s on the subjectivity scale [0,1]' %subj,
-                u'''Confused by these numbers?
+u'''Tinder STATS for {0}
+    Your photos indicate that you appear {1} happy (smiling)
+    You scored {2} on the polarity scale [-1,1]
+    You scored {3} on the subjectivity scale [0,1]
+
+Confused by these numbers?
+
 TEXT DATA: 
     Polarity is measure of the negativity vs positivity in your bio
     Subjectivity is a measure of your objectivity vs subjectivty
+
 PHOTO DATA:
-    Your "happy" score is based on the amount of smiling faces in your photos 😀
-If you want to learn more you can message me 📲
-If you are a CS nerd like me please feel free to message me, all code avaliable on
-github.com/MMcintre96/tinder_stats_bot'''
+    Your "happy" score is based on the amount of smiling faces in your photos
+
+If you want to learn more you can message me; I will respond.
+github.com/MMcintre96/tinder_stats_bot'''.format(name, happy, pol, subj)
             ]
     return message
 
@@ -54,10 +56,13 @@ def m_back():
         messages = match.messages
         for indx in enumerate(messages):
             if messages[indx[0]].body == 'DATA' or messages[indx[0]].body is 'DATA':
-                data_message = check_resp(messages[indx[0]], match.user.id)
+                data_message = check_resp(messages[indx[0]].body, match.user.id)
                 # the scarriest function of em all lmao
-                match.message(data_message)
-                print(data_message)
+                if data_message is not None:
+                    for i in range(len(data_message)):
+                        print(data_message[i])
+                        match.message(str(data_message[i]))
+            
             else:
                 pass
         # this is here to check for new matches
