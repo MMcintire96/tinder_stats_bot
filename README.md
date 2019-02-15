@@ -8,6 +8,7 @@ To run this bot, you need to make the folder
 2. match_imgs
 3. happy_imgs
 4. neutral_imgs
+5. db
 
 Call 'connect.py' and user --help to guide you through it. This will make a creds.txt file for you
 auto_liker.py will like all users and add their data to the DB 
