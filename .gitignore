@@ -1,3 +1,4 @@
+.gitignore
 h_t_db.db
 creds.txt
 happy_imgs/*
