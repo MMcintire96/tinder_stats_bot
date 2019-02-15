@@ -1,10 +1,11 @@
-import requests
 import glob
 import os
 import sqlite3
+
 import cv2
 import imutils
 import numpy as np
+import requests
 import tensorflow as tf
 from imutils import face_utils
 from textblob import TextBlob

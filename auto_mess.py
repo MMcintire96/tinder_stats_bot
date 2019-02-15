@@ -1,9 +1,8 @@
+import sqlite3
 import time
 
-import sqlite3
-import connect
 import analyzer
-
+import connect
 
 conn = sqlite3.connect('db/h_t_db.db')
 c = conn.cursor()
@@ -25,7 +24,7 @@ PHOTO DATA:
     Your "happy" score is based on the amount of smiling faces in your photos 😀
 If you want to learn more you can message me 📲
 If you are a CS nerd like me please feel free to message me, all code avaliable on
-Github.com/mmcintre96'''
+github.com/MMcintre96/tinder_stats_bot'''
             ]
     return message
 
@@ -37,9 +36,7 @@ def check_resp(message, uid):
         c.execute("SELECT * FROM matches WHERE "+goal_uid+"=?", (uid,))
         rows = c.fetchall()
         for row in rows:
-            # make 12 for last row
             resp_var = row[12]
-            print(resp_var)
         if resp_var == 0:
             name = row[1]
             happy, neutral = float(row[10]), float(row[11])
@@ -63,7 +60,8 @@ def m_back():
                 print(data_message)
             else:
                 pass
-        # this is here to check for new messages
+        # this is here to check for new matches
+        # absuing recursive functions
         try:
             distance = round((match.user.distance_km * .62317), 2)
             polarity, subjectivity = analyzer.get_tb_data(match.user.bio)

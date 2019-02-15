@@ -1,8 +1,8 @@
-import time
 
 import sqlite3
-import connect
+
 import analyzer
+import connect
 
 
 def like_user():
@@ -32,7 +32,6 @@ def like_user():
             print(user.id, user.name, user.like())
         except Exception as e:
             print(str(e))
-        time.sleep(5)
         conn.commit()
     conn.close()
 
