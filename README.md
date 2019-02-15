@@ -2,6 +2,8 @@
 
 A bot that returns user data for their tinder profile using tensorflow and textblob
 
+coded with love, coffee and Lady Gaga - Shallow
+
 ## Run
 To run this bot, you need to make the folder
 1. user_imgs
