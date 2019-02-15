@@ -1,6 +1,6 @@
-import sqlite3
 import argparse
 import re
+import sqlite3
 
 import pynder
 import requests
@@ -47,7 +47,7 @@ def get_access_token(email, password):
 
 def make_db():
     try:
-        conn = sqlite3.connect("tind_db.db")
+        conn = sqlite3.connect("db/h_t_db.db")
         c = conn.cursor()
         c.execute(""" CREATE TABLE matches
                 (uid data_type TEXT UNIQUE,
