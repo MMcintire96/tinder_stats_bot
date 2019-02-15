@@ -11,11 +11,10 @@
     -it works like this now so i get data on all users not just matches
         -thinking....
 
-3. Write the stats file
-    -get the avg (pol, subj, happy, neutral)
-    -get the std/variance (pol, subj, happy, neutral)
+3. Get better stats file
+    -most done but need to make it better
+    -maybe return percentile, data is normally distributed
     -maybe i should get the count of faces?
-    -get avg/std(bio length and photo count)
 
 4. known bugs
     - unicode bio causes tokinzation issues
