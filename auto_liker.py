@@ -7,7 +7,7 @@ import connect
 
 def like_user():
     users = connect.session.nearby_users()
-    conn = sqlite3.connect('db/h_t_db.db')
+    conn = sqlite3.connect('db/users.db')
     c = conn.cursor()
     for user in users:
         user.distance = round((user.distance_km * .62317), 2)

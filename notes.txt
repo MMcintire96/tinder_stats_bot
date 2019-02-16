@@ -1,22 +1,19 @@
-
-
 #TODO 
 
-1. fix the db lock issue
-    -asynchronous adding to two different tables not supported????
-        -this could be done by creating 2 dbs? one for likes one for matches
+!!!!!!
+FIX 500 request error
 
-2. computational power used
+1. computational power used
     -technically i dont need to run tf on the same person twice
     -it works like this now so i get data on all users not just matches
         -thinking....
 
-3. Get better stats file
+2 Get better stats file
     -most done but need to make it better
     -maybe return percentile, data is normally distributed
     -maybe i should get the count of faces?
 
-4. known bugs
+3. known bugs
     - unicode bio causes tokinzation issues
     - cant unicode respond with emojis easily w/o formatting issues
     - get all faces in photos

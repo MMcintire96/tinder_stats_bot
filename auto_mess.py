@@ -4,15 +4,15 @@ import stats
 import analyzer
 import connect
 
-conn = sqlite3.connect('db/h_t_db.db')
+conn = sqlite3.connect('db/matches.db')
 c = conn.cursor()
 
 def make_data_message(name, happy, neutral, pol, subj):
     happy, neutral = str(100*round((happy),2)), str(100*round((neutral),2))
     pol, subj = round((pol), 2), round((subj), 2)
-    meanhappy, varhappy, stdhappy = stats.get_query('happy')
-    meanpol, varpol, stdpol = stats.get_query('polarity')
-    meansubj, varsubj, stdsubj = stats.get_query('subjectivity')
+    meanhappy, varhappy, stdhappy, arr = stats.get_query('happy')
+    meanpol, varpol, stdpol, arr = stats.get_query('polarity')
+    meansubj, varsubj, stdsubj, arr = stats.get_query('subjectivity')
     Mhappy, SDhappy = round((100*meanhappy),2), round((100*stdhappy),2)
     Mpol, SDpol = round((meanpol),2), round((stdpol),2)
     Msubj, SDsubj = round((meansubj),2), round((stdsubj),2)
@@ -77,16 +77,10 @@ def m_back():
         for indx in enumerate(messages):
             if messages[indx[0]].body == 'DATA' or messages[indx[0]].body is '"DATA"':
                 data_message = check_resp(messages[indx[0]].body, match.user.id)
-                # the scarriest function of em all lmao
                 if data_message is not None:
                     for j in enumerate(data_message):
                         print(data_message[j[0]])
                         match.message(str(data_message[j[0]]))
-            
-            else:
-                pass
-        # this is here to check for new matches
-        # absuing recursive functions
         try:
             distance = round((match.user.distance_km * .62317), 2)
             polarity, subjectivity = analyzer.get_tb_data(match.user.bio)
@@ -113,8 +107,8 @@ def m_back():
         except Exception as e:
             pass
         conn.commit()
+    print('No new messages, recalling')
     m_back()
 
 if __name__ == '__main__':
-    #print(make_data_message('karla', .87, .13, -.5, .78)) 
     m_back()

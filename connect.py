@@ -47,21 +47,8 @@ def get_access_token(email, password):
 
 def make_db():
     try:
-        conn = sqlite3.connect("db/h_t_db.db")
+        conn = sqlite3.connect("db/users.db")
         c = conn.cursor()
-        c.execute(""" CREATE TABLE matches
-                (uid data_type TEXT UNIQUE,
-                name data_type TEXT,
-                age data_type TEXT,
-                bio data_type TEXT,
-                ig data_type TEXT,
-                distance_mi data_type TEXT,
-                photos data_type TEXT,
-                gender data_type TEXT,
-                polarity data_type TEXT,
-                subjectivity data_type TEXT,
-                happy data_type TEXT,
-                neutral data_type TEXT)""")
         c.execute(""" CREATE TABLE users
                 (uid data_type TEXT UNIQUE,
                 name data_type TEXT,
@@ -75,11 +62,33 @@ def make_db():
                 subjectivity data_type TEXT,
                 happy data_type TEXT,
                 neutral data_type TEXT)""")
-        conn.commit()
-        conn.close()
     except Exception as e:
         print(str(e))
         print("If you are looking for help connecting, use --help")
+    conn.commit()
+    conn.close()
+    
+    try:
+        conn = sqlite3.connect('db/matches.db')
+        c = conn.cursor()
+        c.execute(""" CREATE TABLE matches
+                (uid data_type TEXT UNIQUE,
+                name data_type TEXT,
+                age data_type TEXT,
+                bio data_type TEXT,
+                ig data_type TEXT,
+                distance_mi data_type TEXT,
+                photos data_type TEXT,
+                gender data_type TEXT,
+                polarity data_type TEXT,
+                subjectivity data_type TEXT,
+                happy data_type TEXT,
+                neutral data_type, responded TEXT)""")
+    except Exception as e:
+        print(str(e))
+        print("if you are looking for help connecting, use --help")
+    conn.commit()
+    conn.close()
 
 email, password, auth = get_args()
 if len(auth) > 0:
