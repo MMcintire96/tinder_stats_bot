@@ -58,14 +58,14 @@ def check_resp(uid):
     rows = c.fetchall()
     for row in rows:
         resp_var = row[12]
-    if resp_var == 0:
-        name = row[1]
-        happy, neutral = float(row[10]), float(row[11])
-        pol, subj = float(row[8]), float(row[9])
-        c.execute("UPDATE matches SET responded=1 WHERE uid = ?", (uid,))
-        conn.commit()
-        data_message = make_data_message(name, happy, neutral, pol, subj)
-        return data_message
+        if resp_var == 0:
+            name = row[1]
+            happy, neutral = float(row[10]), float(row[11])
+            pol, subj = float(row[8]), float(row[9])
+            c.execute("UPDATE matches SET responded=1 WHERE uid = ?", (uid,))
+            conn.commit()
+            data_message = make_data_message(name, happy, neutral, pol, subj)
+            return data_message
 
 
 def m_back():
