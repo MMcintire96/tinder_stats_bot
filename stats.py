@@ -5,8 +5,8 @@ import sqlite3
 
 def get_stats(arr):
     arr = np.array(arr).astype(np.float)
-    mean = np.mean(arr)
-    var = np.var(arr, dtype=np.float32)
+    mean = np.nanmean(arr)
+    var = np.nanvar(arr, dtype=np.float32)
     std = math.sqrt(var)
     return mean, var, std, arr
 
