@@ -57,11 +57,11 @@ def check_resp(uid):
     c.execute("SELECT * FROM matches WHERE "+goal_uid+"=?", (uid,))
     rows = c.fetchall()
     for row in rows:
-        resp_var = row[12]
+        resp_var = row[15]
         if resp_var == 0:
             name = row[1]
-            happy, neutral = float(row[10]), float(row[11])
-            pol, subj = float(row[8]), float(row[9])
+            happy, neutral = float(row[13]), float(row[14])
+            pol, subj = float(row[11]), float(row[12])
             c.execute("UPDATE matches SET responded=1 WHERE uid = ?", (uid,))
             conn.commit()
             data_message = make_data_message(name, happy, neutral, pol, subj)
@@ -81,19 +81,34 @@ def m_back():
             distance = round((match.user.distance_km * .62317), 2)
             polarity, subjectivity = analyzer.get_tb_data(match.user.bio)
             responded = 0
+            school_id = list(match.user.schools.keys())
+            school_name = list(match.user.schools.values())
+            job = match.user.jobs
+            if len(job) is 0:
+                job = None
+            else:
+                job = job[0]
+            if len(school_name) is 0:
+                school_name = None
+                school_id = None
+            else:
+                school_name = school_name[0]
+                school_id = school_id[0]
             c.execute("""INSERT INTO matches
                     (uid, name, age, bio,
-                    ig, distance_mi, photos, 
+                    ig, distance_mi, photos,
+                    school_name, school_id, job,
                     gender, polarity, subjectivity, responded)
-                    values (?,?,?,?,?,?,?,?,?,?,?)""",
+                    values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
                     (match.user.id, match.user.name,
                     match.user.age, match.user.bio,
                     match.user.instagram_username,
-                    distance, str(match.user.photos),
+                    distance, str(list(match.user.photos)),
+                    school_name, school_id, job,
                     match.user.gender,
                     polarity, subjectivity, responded))
             avg_happy, avg_neutral = analyzer.get_tf_data('match', 
-                        match.user.photos, str(match.user.id))
+                        list(match.user.photos), str(match.user.id))
             c.execute("""UPDATE matches
                     SET happy = ?,
                         neutral = ?

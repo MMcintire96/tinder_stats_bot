@@ -1,4 +1,3 @@
-
 import sqlite3
 
 import analyzer
@@ -12,17 +11,32 @@ def like_user():
     for user in users:
         user.distance = round((user.distance_km * .62317), 2)
         polarity, subjectivity = analyzer.get_tb_data(user.bio)
+        school_id = list(user.schools.key())
+        school_name = list(user.schools.values())
+        job = user.jobs
+        if len(job) is 0:
+            job = None
+        else:
+            job = job[0]
+        if len(school_name) is 0:
+            school_name = None
+            school_id = None
+        else:
+            school_name = school_name[0]
+            school_id = school_id[0]
         try:
             c.execute("""INSERT INTO users
                     (uid, name, age, bio,
                     ig, distance_mi, photos, 
+                    school_name, school_id, job,
                     gender, polarity, subjectivity)
-                    values (?,?,?,?,?,?,?,?,?,?)""",
+                    values (?,?,?,?,?,?,?,?,?,?,?,?,?)""",
                     (user.id, user.name, user.age,
                     user.bio, user.instagram_username,
-                    user.distance, str(user.photos), user.gender,
+                    user.distance, str(list(user.photos)), user.gender,
+                    school_name, school_id, job,
                     polarity, subjectivity))
-            avg_happy, avg_neutral = analyzer.get_tf_data('user', user.photos, str(user.id))
+            avg_happy, avg_neutral = analyzer.get_tf_data('user', list(user.photos), str(user.id))
             c.execute("""UPDATE users
                     SET happy = ?,
                         neutral = ?
