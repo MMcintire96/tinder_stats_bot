@@ -1,16 +1,28 @@
-#TODO 
 
-!!!!!!
-FIX 500 request error
+1. Game changing TODOS which will never be completed
+    - find more efficent way to check for new matches
+        - maybe i can get notifs or something
+    - recomplie TF for AVXM FMA
 
-1. computational power used
-    -make tf for avxm FMA
+2. Minor Stuff
+    - working on the graph file right now
+        - combine all plots into a subplot
+    - TF and TB data is not normally distributed :(
+        - this could be a sampling issue or a tb/tf issue
+    - Find way to backfill user's school/jobs in user DB
 
-2 Get better stats file
-    -working on the graph file right now
-    -maybe i should get the count of faces?
-    -data is not normally distributed :(
+3. Major Stuff
+    - retrain model on new tinder face dataset
+        - need some GPU hours somewhere
+    - need a slave to organize all faces
+        - somewhat sorted at 19k photos right now
 
-3. known bugs
-    - calling the responder function before adding to db - slows down just slightly
-    - unicode bio causes tokinzation issues?
+4. BUGs
+    - the CV2 Resize bug. Cant figure out why resize fails with (-215 Assertion error)
+        - Size empty issue
+    - Responder function requres 2x loop through matches to respond
+        - might be fixed on this commit
+    - unicode bio not tokenizing 
+        - its not causeing issues but need a lexicon containing unicode chars for TB
+
+
