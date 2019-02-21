@@ -52,8 +52,8 @@ Github.com/MMcintire96/tinder_stats_bot'''.format(name, happy, Mhappy, SDhappy, 
 
 def check_resp(uid):
     goal_uid = 'uid'
-    goal_resp = 'responded'
     # you think someone on tinder will sql inject this? is it possible?
+    # why cant that just be uid
     c.execute("SELECT * FROM matches WHERE "+goal_uid+"=?", (uid,))
     rows = c.fetchall()
     for row in rows:
@@ -72,11 +72,6 @@ def m_back():
     matches = connect.session.matches()
     me = connect.session.profile.id
     for match in matches:
-        data_message = check_resp(match.user.id)
-        if data_message is not None:
-            for j in enumerate(data_message):
-                print(data_message[j[0]])
-                match.message(str(data_message[j[0]]))
         try:
             distance = round((match.user.distance_km * .62317), 2)
             polarity, subjectivity = analyzer.get_tb_data(match.user.bio)
@@ -118,6 +113,10 @@ def m_back():
         except Exception as e:
             pass
         conn.commit()
+        data_message = check_resp(match.user.id)
+        if data_message is not None:
+            print(data_message[0])
+            match.message(str(data_message[0]))
     print('No new matches - recalling')
     m_back()
 

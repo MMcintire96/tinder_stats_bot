@@ -11,7 +11,7 @@ def like_user():
     for user in users:
         user.distance = round((user.distance_km * .62317), 2)
         polarity, subjectivity = analyzer.get_tb_data(user.bio)
-        school_id = list(user.schools.key())
+        school_id = list(user.schools.keys())
         school_name = list(user.schools.values())
         job = user.jobs
         if len(job) is 0:
@@ -24,12 +24,14 @@ def like_user():
         else:
             school_name = school_name[0]
             school_id = school_id[0]
+        print(school_name, school_id, job)
         try:
             c.execute("""INSERT INTO users
                     (uid, name, age, bio,
                     ig, distance_mi, photos, 
-                    school_name, school_id, job,
-                    gender, polarity, subjectivity)
+                    gender, school_name, 
+                    school_id, job,
+                    polarity, subjectivity)
                     values (?,?,?,?,?,?,?,?,?,?,?,?,?)""",
                     (user.id, user.name, user.age,
                     user.bio, user.instagram_username,

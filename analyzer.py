@@ -24,10 +24,10 @@ with tf.gfile.GFile('model_out/output_graph.pb', 'rb') as graph_file:
 
 
 def get_tb_data(bio):
-	tb_data = TextBlob(str(bio))
-	polarity = tb_data.sentiment.polarity
-	subjectivity = tb_data.sentiment.subjectivity
-	return polarity, subjectivity
+    tb_data = TextBlob(str(bio))
+    polarity = tb_data.sentiment.polarity
+    subjectivity = tb_data.sentiment.subjectivity
+    return polarity, subjectivity
 
 
 def get_tf_data(location, photos, uid):
