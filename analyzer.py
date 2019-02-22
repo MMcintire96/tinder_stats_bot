@@ -13,7 +13,6 @@ from textblob import TextBlob
 import connect
 import dlib
 
-# load in graph/labels
 with open('model_out/output_labels.txt', 'r') as label_file:
 	labels = [line.strip('\n') for line in label_file]
 	labels = labels
