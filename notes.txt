@@ -1,4 +1,3 @@
-
 1. Game changing TODOS which will never be completed
     - find more efficent way to check for new matches
         - maybe i can get notifs or something
@@ -7,9 +6,10 @@
 2. Minor Stuff
     - working on the graph file right now
         - combine all plots into a subplot
+    - clean up stats file and auto_mess
+        - compactify code
     - TF and TB data is not normally distributed :(
         - this could be a sampling issue or a tb/tf issue
-    - Find way to backfill user's school/jobs in user DB
 
 3. Major Stuff
     - retrain model on new tinder face dataset

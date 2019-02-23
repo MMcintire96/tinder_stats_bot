@@ -1,3 +1,4 @@
+import ast
 import collections
 import math
 import sqlite3
@@ -36,16 +37,16 @@ def get_len():
 
     return len(arr)
 
-
+# clean this up
 def user_stats(arr_var):
     conn = sqlite3.connect('db/users.db')
     c = conn.cursor()
     c.execute("SELECT "+arr_var+" FROM users")
     arr = []
-    string_list = ["uid", "name", "bio", "ig", "gender"]
+    string_list = ["uid", "bio", "ig"] 
     if arr_var in string_list:
         for row in c.fetchall():
-            if row[0] is not "":
+            if row[0] is not "" and row[0] is not None:
                 arr.append(len(row[0]))
     elif arr_var is "photos":
         for row in c.fetchall():
@@ -57,21 +58,26 @@ def user_stats(arr_var):
     else:
         for row in c.fetchall():
             arr.append(row[0])
-
-    x = "".join([x for x in arr[0]])
-    print(list(x))
-    arr_counter = collections.Counter(sorted(arr))
-    arr_items = list(arr_counter.keys())
-    arr_count = list(arr_counter.values())
-    mode = arr_items[arr_count.index(max(arr_count))]
-    if arr_var is "school_id":
-        c.execute("SELECT school_name FROM users WHERE school_id="+mode+"")
-        school_name = c.fetchone()[0]
-        return school_name
-    
-    return mode
+    if arr_var == 'photos':
+        len_list = [len(ast.literal_eval(x)) for x in arr]
+        arr_counter = collections.Counter(sorted(len_list))
+        arr_items = list(arr_counter.keys())
+        arr_count = list(arr_counter.values())
+        mode = arr_items[arr_count.index(max(arr_count))]
+        return mode
+    else: 
+        arr_counter = collections.Counter(sorted(arr))
+        arr_items = list(arr_counter.keys())
+        arr_count = list(arr_counter.values())
+        mode = arr_items[arr_count.index(max(arr_count))]
+        if arr_var is "school_id":
+            c.execute("SELECT school_name FROM users WHERE school_id="+mode+"")
+            school_name = c.fetchone()[0]
+            return school_name
+        else:
+            return mode
 
 
 if __name__ == '__main__':
-    print(user_stats("photos"))
+    print(user_stats("bio"))
     print('This is a helper file')
