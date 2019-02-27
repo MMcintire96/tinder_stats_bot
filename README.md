@@ -5,7 +5,7 @@ This bot analyzes a user's tinder profile using two different machine learning m
     2. CNN trained on tinder faces labeled = ['happy', 'neutral']
 
 The model's architecture is a less deep and less perfected version of VGG-16's
-![alt text]('https://github.com/MMcintire96/tinder_stats_bot/tree/master/other/modelpic.png')
+![alt text]('https://github.com/MMcintire96/tinder_stats_bot/blob/master/other/modelpic.png')
 
 Currently using predictions from a transfer learned version of InceptionV3 by google while I get the hyperparams of the model above down.
 
