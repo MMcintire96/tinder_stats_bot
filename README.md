@@ -1,8 +1,9 @@
 # tinder_stats_bot
 
 This bot analyzes a user's tinder profile using two different machine learning methods:
-    1. TextBlob uses NLP to get sentiment of text data (user.bio)
-    2. CNN trained on tinder faces labeled = ['happy', 'neutral']
+
+1. TextBlob uses NLP to get sentiment of text data (user.bio)
+2. CNN trained on tinder faces labeled = ['happy', 'neutral']
 
 The model's architecture is a less deep and less perfected version of VGG-16's
 <<<<<<< HEAD
@@ -17,10 +18,11 @@ Coded with love <3, coffee and Lady Gaga
 
 ## Run
 To run this bot, you need to make the folders
-    all_faces/
-    -----happy_imgs/
-    -----neutral_imgs/
-    db/
+
+* all_faces/
+    * -happy_imgs/
+    * -neutral_imgs/
+* db/
 
 you will also need the requirements which I cba to write out
 
