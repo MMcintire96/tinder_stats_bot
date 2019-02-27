@@ -1,16 +1,22 @@
 # tinder_stats_bot
 
-A bot that returns user data for their tinder profile using tensorflow and textblob
+This bot analyzes a user's tinder profile using two different machine learning methods:
+    1. TextBlob uses NLP to get sentiment of text data (user.bio)
+    2. CNN trained on tinder faces labeled = ['happy', 'neutral']
 
-coded with love, coffee and Lady Gaga - Shallow
+The model's architecture is a less deep and less perfected version of VGG-16's
+![alt text]('https://github.com/MMcintire96/tinder_stats_bot/tree/master/other/modelpic.png')
+
+Currently using predictions from a transfer learned version of InceptionV3 by google while I get the hyperparams of the model above down.
+
+Coded with love <3, coffee and Lady Gaga
 
 ## Run
 To run this bot, you need to make the folders
-1. user_imgs/
-2. match_imgs/
-3. happy_imgs/
-4. neutral_imgs/
-5. db/
+    all_faces/
+    -----happy_imgs/
+    -----neutral_imgs/
+    db/
 
 you will also need the requirements which I cba to write out
 
@@ -27,7 +33,7 @@ read notes.txt if you really care
 
 Thank You Mary for tinderpro
 
-1. Pynder by charlie/wolf - slightly modified
+1. Pynder by charlie/wolf - git clone the repo 
 2. Tensorflow - Google
-3. TextBlob - whoever made it, good job
+3. TextBlob  
 
