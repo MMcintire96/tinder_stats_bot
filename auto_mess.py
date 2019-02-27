@@ -12,9 +12,9 @@ c = conn.cursor()
 def make_data_message(name, happy, neutral, pol, subj):
     happy, neutral = str(round((100*happy),2)), str(round((neutral*100),2))
     pol, subj = round((pol), 2), round((subj), 2)
-    meanhappy, varhappy, stdhappy, arr = stats.get_query('happy')
-    meanpol, varpol, stdpol, arr = stats.get_query('polarity')
-    meansubj, varsubj, stdsubj, arr = stats.get_query('subjectivity')
+    meanhappy, varhappy, stdhappy = stats.get_query('happy')
+    meanpol, varpol, stdpol = stats.get_query('polarity')
+    meansubj, varsubj, stdsubj = stats.get_query('subjectivity')
     Mhappy, SDhappy = round((100*meanhappy),2), round((100*stdhappy),2)
     Mpol, SDpol = round((meanpol),2), round((stdpol),2)
     Msubj, SDsubj = round((meansubj),2), round((stdsubj),2)
@@ -60,8 +60,7 @@ For {10} females in your area:
     
 
 If you want to learn more you can message me; I will respond.
-Github.com/MMcintire96/tinder_stats_bot'''.format(name, happy, Mhappy, SDhappy, pol, Mpol, SDpol, subj, Msubj, SDsubj, user_count, mode_name, mode_bio, mode_school, mode_photos)
-]
+Github.com/MMcintire96/tinder_stats_bot'''.format(name, happy, Mhappy, SDhappy, pol, Mpol, SDpol, subj, Msubj, SDsubj, user_count, mode_name, mode_bio, mode_school, mode_photos)]
     return message
 
 def check_resp(uid):
@@ -110,8 +109,7 @@ def m_back():
                     school_name, school_id, job,
                     match.user.gender,
                     polarity, subjectivity, responded))
-            avg_happy, avg_neutral = analyzer.get_tf_data('match', 
-                        list(match.user.photos), str(match.user.id))
+            avg_happy, avg_neutral = analyzer.get_tf_data(list(match.user.photos), str(match.user.id))
             c.execute("""UPDATE matches
                     SET happy = ?,
                         neutral = ?
@@ -124,7 +122,7 @@ def m_back():
         data_message = check_resp(match.user.id)
         if data_message is not None:
             print(data_message[0])
-            #match.message(str(data_message[0]))
+            match.message(str(data_message[0]))
     print('No new matches - recalling')
     m_back()
 

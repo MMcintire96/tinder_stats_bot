@@ -24,7 +24,6 @@ def like_user():
         else:
             school_name = school_name[0]
             school_id = school_id[0]
-        print(school_name, school_id, job)
         try:
             c.execute("""INSERT INTO users
                     (uid, name, age, bio,
@@ -38,7 +37,7 @@ def like_user():
                     user.distance, str(list(user.photos)), user.gender,
                     school_name, school_id, job,
                     polarity, subjectivity))
-            avg_happy, avg_neutral = analyzer.get_tf_data('user', list(user.photos), str(user.id))
+            avg_happy, avg_neutral = analyzer.get_tf_data(list(user.photos), str(user.id))
             c.execute("""UPDATE users
                     SET happy = ?,
                         neutral = ?
