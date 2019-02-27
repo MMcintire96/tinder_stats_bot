@@ -30,7 +30,7 @@ def get_tb_data(bio):
 
 def get_tf_data(photos, uid):
     detector = dlib.get_frontal_face_detector()
-    predictor = dlib.shape_predictor('shape_predictor_68_face_landmarks.dat')
+    predictor = dlib.shape_predictor('other/shape_predictor_68_face_landmarks.dat')
     i = 0
     img_list = []
     happy = []
@@ -41,8 +41,6 @@ def get_tf_data(photos, uid):
             img_data = io.BytesIO(requests.get(img).content)
             image = cv2.imdecode(np.fromstring(img_data.read(), np.uint8),1)
             image = imutils.resize(image, width=640)
-            detector = dlib.get_frontal_face_detector()
-            predictor = dlib.shape_predictor('shape_predictor_68_face_landmarks.dat')
             gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
             rects = detector(gray, 1)
             if len(rects) > 0:
@@ -51,6 +49,7 @@ def get_tf_data(photos, uid):
                     shape = face_utils.shape_to_np(shape)
                     (x,y,w,h) = face_utils.rect_to_bb(rect)
                     c_image = image[y:y+h, x:x+h]
+                    # can get a weird dim_expander err here
                     float_caster = tf.cast(c_image, tf.float32)
                     dims_expander = tf.expand_dims(float_caster, 0)
                     resized = tf.image.resize_bilinear(dims_expander, [299, 299])
@@ -69,7 +68,7 @@ def get_tf_data(photos, uid):
                             cv2.imwrite('all_faces/neutral_imgs/%s' %img_name, write_img)
             i += 1
         except Exception as e:
-            print(str(e))
+            pass
     if len(happy) is 0:
         avg_happy = 0
         avg_neutral = 0
