@@ -13,10 +13,11 @@ Coded with love <3, coffee and Lady Gaga
 
 ## Run
 To run this bot, you need to make the folders
-    all_faces/
-    -----happy_imgs/
-    -----neutral_imgs/
-    db/
+
+* all_faces/
+    * -happy_imgs/
+    * -neutral_imgs/
+* db/
 
 you will also need the requirements which I cba to write out
 
