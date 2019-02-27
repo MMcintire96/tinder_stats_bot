@@ -12,17 +12,25 @@
         - this could be a sampling issue or a tb/tf issue
 
 3. Major Stuff
-    - retrain model on new tinder face dataset
-        - need some GPU hours somewhere
-    - need a slave to organize all faces
-        - somewhat sorted at 19k photos right now
+    - beat the transfer learned inception model accuracy
+        -inception v3 model 2kish training = 92% - 4k steps
+        -my cnn = 4 conv layers, adam optimizer, relu activation - ascending filters
+            -256 batch/5 epochs - 10k train/2k validation = 78%
+            -256 batch/5 epochs - 20k train/4k valid = training
+    - need a slave to organize all faces and clean
+        - somewhat sorted at 30k photos right now
 
 4. BUGs
     - the CV2 Resize bug. Cant figure out why resize fails with (-215 Assertion error)
         - Size empty issue
-    - Responder function requres 2x loop through matches to respond
-        - might be fixed on this commit
+    - cnn new_data=True needs to be called twice?
+        - prob a filewriter error
+        - time.sleep() would solve
     - unicode bio not tokenizing 
         - its not causeing issues but need a lexicon containing unicode chars for TB
+        - maybe can just assign most used emoji's a value
 
-
+5. NN training
+    - clean the data by hand(remove bad faces)
+    - get the hyper-parameters down
+    - try staring from 16 filters in block1
