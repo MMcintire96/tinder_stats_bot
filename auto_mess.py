@@ -26,7 +26,7 @@ def make_data_message(name, happy, neutral, pol, subj):
     message = [
 u'''Tinder Stats for {0}:
 
-Happy: 
+Happy:
 
 == {1} ==
 
@@ -35,13 +35,13 @@ Happy:
 Polarity:
 
 == {4} ==
-    
+
     -M: {5} -SD: {6} -R: [-1,1]
 
-Subjectivity: 
+Subjectivity:
 
-== {7} == 
-    
+== {7} ==
+
     -M: {8} -SD: {9} -R: [0,1]
 
 Key: M=mean, SD=Standard Deviation, R=Range
@@ -57,10 +57,10 @@ For {10} females in your area:
     The most common bio length is {12} characters
     The most common university is {13}
     The most common amount of photos is {14}
-    
+
 
 If you want to learn more you can message me; I will respond.
-Github.com/MMcintire96/tinder_stats_bot'''.format(name, happy, Mhappy, SDhappy, pol, Mpol, SDpol, subj, Msubj, SDsubj, user_count, mode_name, mode_bio, mode_school, mode_photos)]
+If you want to view the code just ask and I will link you.'''.format(name, happy, Mhappy, SDhappy, pol, Mpol, SDpol, subj, Msubj, SDsubj, user_count, mode_name, mode_bio, mode_school, mode_photos)]
     return message
 
 def check_resp(uid):
