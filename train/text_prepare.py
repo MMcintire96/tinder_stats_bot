@@ -85,9 +85,9 @@ def split_data():
     for x in data:
         randomizer = random.randint(1,10)
         if randomizer <= 8:
-            test_data.append(x)
-        else:
             train_data.append(x)
+        else:
+            test_data.append(x)
     return test_data, train_data
 
 
