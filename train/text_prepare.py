@@ -64,13 +64,15 @@ def clean_data():
     return clean_arr
 
 
+# get into ints of 0-10
 def load_data():
     bio_data = clean_data()
     labeled_sents = []
     for user in bio_data:
         for sent in user['bio']:
             tb_data = TextBlob(sent)
-            pol = round((tb_data.sentiment.polarity),2)
+            pol = round((tb_data.sentiment.polarity ** 2),1)
+            pol = int(pol * 10)
             if pol != 0.0:
                 taged_sent = [sent, pol]
                 labeled_sents.append(taged_sent)
@@ -123,4 +125,3 @@ def get_data(new_data):
 if __name__ == "__main__":
     print("cleans the bio data")
     print("call get_data(new_data=True) from the cnn")
-    get_data(new_data=True)
