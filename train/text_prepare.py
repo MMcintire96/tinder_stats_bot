@@ -1,11 +1,12 @@
 import json
 import sqlite3
 import numpy as np
+import random
 import nltk
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem.wordnet import WordNetLemmatizer
-
+from textblob import TextBlob
 
 def fetch_data():
     conn = sqlite3.connect('../db/users.db')
@@ -48,7 +49,7 @@ def nltk_bio(bio):
             clean_sent.append(' '.join(cleaned_sent))
     return clean_sent
 
-
+#write a regex to remove @instagra/snapchat
 def clean_data():
     dirty_arr = fetch_data()
     clean_arr = []
@@ -60,15 +61,66 @@ def clean_data():
             clean_arr.append(user)
         i += 1
         print(i)
-    f = open('bio_data.txt', 'w')
-    print(json.dumps(clean_arr, indent=4), file=f)
+    return clean_arr
+
 
 def load_data():
-    f = open('bio_data.txt', 'r').read()
-    bio_data = json.loads(f)
-    print(bio_data[1]['bio'][0])
+    bio_data = clean_data()
+    labeled_sents = []
+    for user in bio_data:
+        for sent in user['bio']:
+            tb_data = TextBlob(sent)
+            pol = round((tb_data.sentiment.polarity),2)
+            if pol != 0.0:
+                taged_sent = [sent, pol]
+                labeled_sents.append(taged_sent)
+    return labeled_sents
+
+
+def split_data():
+    data = load_data()
+    test_data = []
+    train_data = []
+    random.shuffle(data)
+    for x in data:
+        randomizer = random.randint(1,10)
+        if randomizer <= 8:
+            test_data.append(x)
+        else:
+            train_data.append(x)
+    return test_data, train_data
+
+
+def split_labels():
+    test_data, train_data = split_data()
+    test_labels, train_labels = [], []
+    for x in test_data:
+        test_labels.append(x[1])
+        del x[1]
+    for x in train_data:
+        train_labels.append(x[1])
+        del x[1]
+    np.save('working_model/text_data/train_data.npy', train_data)
+    np.save('working_model/text_data/train_labels.npy', train_labels)
+    np.save('working_model/text_data/test_data.npy', test_data)
+    np.save('working_model/text_data/test_labels.npy', test_labels)
+    return (train_data, train_labels), (test_data, test_labels)
+
+
+def get_data(new_data):
+    if new_data:
+        (train_data, train_labels), (test_data, test_labels) = split_labels()
+    else:
+       train_data = np.load('working_model/text_data/train_data.npy')
+       train_labels = np.load('working_model/text_data/train_labels.npy')
+       test_data = np.load('working_model/text_data/test_data.npy')
+       test_labels = np.load('working_model/text_data/test_labels.npy')
+
+    return (train_data, train_labels), (test_data, test_labels)
+
 
 
 if __name__ == "__main__":
     print("cleans the bio data")
-    load_data()
+    print("call get_data(new_data=True) from the cnn")
+    get_data(new_data=True)
