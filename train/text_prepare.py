@@ -49,16 +49,23 @@ def nltk_bio(bio):
             clean_sent.append(' '.join(cleaned_sent))
     return clean_sent
 
+
 #write a regex to remove @instagra/snapchat
+bad_words = [':)', ';)', ':))', '<3', 'lol']
 def clean_data():
     dirty_arr = fetch_data()
     clean_arr = []
     i = 0
     for user in dirty_arr:
         if user['pol'] != 0.0 and len(user['bio']) != 0:
-            user['bio'] = remove_emoji(user['bio'])
-            user['bio'] = nltk_bio(user['bio'])
-            clean_arr.append(user)
+            words = user['bio'].split()
+            user['bio'] = []
+            for word in words:
+                if word not in bad_words:
+                    cleaned = remove_emoji(word)
+                    user['bio'].append(nltk_bio(word))
+            if len(user['bio']) is not 0:
+                clean_arr.append(user)
         i += 1
         print(i)
     return clean_arr
@@ -70,12 +77,15 @@ def load_data():
     labeled_sents = []
     for user in bio_data:
         for sent in user['bio']:
-            tb_data = TextBlob(sent)
-            pol = round((tb_data.sentiment.polarity ** 2),1)
-            pol = int(pol * 10)
-            if pol != 0.0:
-                taged_sent = [sent, pol]
-                labeled_sents.append(taged_sent)
+            try:
+                tb_data = TextBlob(sent[0])
+                pol = round((tb_data.sentiment.polarity ** 2),1)
+                pol = int(pol * 10)
+                if pol != 0.0:
+                    taged_sent = [sent, pol]
+                    labeled_sents.append(taged_sent)
+            except Exception as e:
+                print(str(e))
     return labeled_sents
 
 
@@ -96,15 +106,18 @@ def split_data():
 def split_labels():
     test_data, train_data = split_data()
     test_labels, train_labels = [], []
+    test_words, train_words = [], []
     for x in test_data:
+        test_words.append(x[0][0].lower())
         test_labels.append(x[1])
         del x[1]
     for x in train_data:
+        train_words.append(x[0][0].lower())
         train_labels.append(x[1])
         del x[1]
-    np.save('working_model/text_data/train_data.npy', train_data)
+    np.save('working_model/text_data/train_data.npy', train_words)
     np.save('working_model/text_data/train_labels.npy', train_labels)
-    np.save('working_model/text_data/test_data.npy', test_data)
+    np.save('working_model/text_data/test_data.npy', test_words)
     np.save('working_model/text_data/test_labels.npy', test_labels)
     return (train_data, train_labels), (test_data, test_labels)
 
@@ -117,11 +130,11 @@ def get_data(new_data):
        train_labels = np.load('working_model/text_data/train_labels.npy')
        test_data = np.load('working_model/text_data/test_data.npy')
        test_labels = np.load('working_model/text_data/test_labels.npy')
-
     return (train_data, train_labels), (test_data, test_labels)
 
 
 
 if __name__ == "__main__":
+    print(get_data(new_data=False))
     print("cleans the bio data")
     print("call get_data(new_data=True) from the cnn")
